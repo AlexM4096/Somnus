@@ -26,6 +26,11 @@ public class PlayerController : MonoBehaviour
         controls.Disable();
     }
 
+    private void Update()
+    {
+        direction = controls.Main.Move.ReadValue<float>();
+    }
+
     private void FixedUpdate()
     {
         Move();
@@ -33,7 +38,6 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        direction = controls.Main.Move.ReadValue<float>();
         rb.velocity = new Vector2(direction * speed, 0);
     }
 }
