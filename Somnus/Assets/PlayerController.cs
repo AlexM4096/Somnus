@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     {
         controls = new Controls();
         rb = GetComponent<Rigidbody2D>();
+
+        controls.Main.Interact.performed += Interact;
     }
 
     private void OnEnable()
@@ -36,8 +38,18 @@ public class PlayerController : MonoBehaviour
         Move();
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        
+    }
+
     private void Move()
     {
         rb.velocity = new Vector2(direction * speed, 0);
+    }
+
+    public void Interact(InputAction.CallbackContext context)
+    {
+        Debug.Log("Ok");    
     }
 }
