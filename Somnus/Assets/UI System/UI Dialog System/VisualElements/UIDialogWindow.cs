@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine.UIElements;
 
 public class UIDialogWindow : VisualElement
@@ -11,7 +12,11 @@ public class UIDialogWindow : VisualElement
     {
         Add(new UIDialogText(dialog));
 
-        foreach (DialogChoice dialogChoice in dialog.Choices)
-            Add(new UIDialogChoice(dialog, dialogChoice));
+        List<DialogChoice> choices = dialog.Choices; 
+        for (int index = 0; index < choices.Count; index++)
+        {
+            UIDialogChoice dialogChoice = new UIDialogChoice(dialog, choices[index]);
+            Add(dialogChoice);
+        }
     }
 }

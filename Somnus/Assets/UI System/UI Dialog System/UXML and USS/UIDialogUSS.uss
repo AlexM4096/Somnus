@@ -16,3 +16,7 @@
     height: 70px;
     background-color: rgba(255, 255, 255, 255);
 }
+
+.dialogChoice:focus {
+    scale: 1.05 1.05;
+}
