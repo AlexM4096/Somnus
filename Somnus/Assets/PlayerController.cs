@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private float direction;
     private Controls controls;
+    private Animator anim;
+    private SpriteRenderer sr;
 
     private IInteractable interactable;
 
@@ -14,9 +16,12 @@ public class PlayerController : MonoBehaviour
     {
         controls = new Controls();
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
 
         controls.Player.Interact.performed += Interact;
     }
+
 
     private void OnEnable()
     {
@@ -45,8 +50,10 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         Move();
-    }
+        Reflect();
 
+    }
+    public bool faceRight = true;
     private void OnTriggerEnter2D(Collider2D collision)
     {
         interactable = collision.GetComponent<IInteractable>();
@@ -60,8 +67,16 @@ public class PlayerController : MonoBehaviour
     private void Move()
     {
         rb.velocity = new Vector2(direction * speed, 0);
+        anim.SetFloat("speed", Mathf.Abs(rb.velocity.x));
     }
-
+    void Reflect()
+    {
+        if (rb.velocity.x > 0 && !faceRight || (rb.velocity.x < 0 && faceRight))
+        {
+            transform.localScale *= new Vector2(-1, 1);
+            faceRight = !faceRight;
+        }
+    }
 
     public void Interact(InputAction.CallbackContext context)
     {
