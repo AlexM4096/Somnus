@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 
 public class UIDialogScript : MonoBehaviour
@@ -9,6 +10,9 @@ public class UIDialogScript : MonoBehaviour
     private void Awake()
     {
         _root = GetComponent<UIDocument>().rootVisualElement;
+        _root.Clear();
+
+        _root.AddToClassList("root");
 
         _dialogWindow = new UIDialogWindow();
         _root.Add(_dialogWindow);

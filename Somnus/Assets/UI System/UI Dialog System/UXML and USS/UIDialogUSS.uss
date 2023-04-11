@@ -1,22 +1,57 @@
 .dialogWindow {
     width: 850px;
-    height: 660px;
-    background-color: rgba(110, 105, 105, 255);
+    background-color: rgb(110, 105, 105);
     align-items: center;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    min-height: 200px;
+    max-height: 663px;
+    padding-bottom: 25px;
 }
 
 .dialogText {
     width: 800px;
     height: 150px;
-    background-color: rgba(255, 255, 255, 255);
+    background-color: rgb(255, 255, 255);
+    margin-top: 25px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    -unity-text-align: middle-center;
 }
 
 .dialogChoice {
     width: 800px;
-    height: 70px;
-    background-color: rgba(255, 255, 255, 255);
+    height: 90px;
+    background-color: rgb(255, 255, 255);
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 25px;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    -unity-text-align: middle-center;
 }
 
 .dialogChoice:focus {
     scale: 1.05 1.05;
+}
+
+.root {
+    align-items: flex-start;
+    justify-content: center;
+    left: 50px;
 }

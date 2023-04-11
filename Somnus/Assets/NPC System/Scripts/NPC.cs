@@ -18,7 +18,7 @@ public class NPC : MonoBehaviour, IInteractable
         Dialog dialog = DialogsQueue.Dequeue();
         dialog?.StartDialog();
     }
-
-    public void Interact() { StartDialog(); }
+ 
     public bool CanInteract() { return DialogsQueue.Count > 0; }
+    public void Interact() { StartDialog(); }
 }
