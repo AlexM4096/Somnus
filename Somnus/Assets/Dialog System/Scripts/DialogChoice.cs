@@ -4,7 +4,7 @@ using UnityEngine;
 [Serializable]
 public class DialogChoice
 {
-    [SerializeField] string PlayerText;
+    [SerializeField] public string PlayerText;
     [SerializeField] ChoiceType Type;
-    [SerializeField] Dialog NextDialog;
+    [SerializeField] public Dialog NextDialog;
 }

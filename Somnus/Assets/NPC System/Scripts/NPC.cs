@@ -1,26 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC : MonoBehaviour
+public class NPC : MonoBehaviour, IInteractable
 {
     [SerializeField] string Name;
-    [SerializeField] Sprite Sprite;
     [SerializeField] List<Dialog> Dialogs;
 
     Queue<Dialog> DialogsQueue;
-    DialogChannel _dialogChannel;
 
     private void Awake()
     {
-        DialogsQueue = new Queue<Dialog>();
+        DialogsQueue = new Queue<Dialog>(Dialogs);
     }
 
     void StartDialog()
     {
-
         Dialog dialog = DialogsQueue.Dequeue();
-        _dialogChannel.StartDialog(dialog);
+        dialog?.StartDialog();
     }
 
-    public bool HaveDialog() { return DialogsQueue.Count > 0; }
+    public void Interact() { StartDialog(); }
+    public bool CanInteract() { return DialogsQueue.Count > 0; }
 }

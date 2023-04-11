@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,27 +8,38 @@ public class PlayerController : MonoBehaviour
     private float direction;
     private Controls controls;
 
+    private IInteractable interactable;
+
     private void Awake()
     {
         controls = new Controls();
         rb = GetComponent<Rigidbody2D>();
 
-        controls.Main.Interact.performed += Interact;
+        controls.Player.Interact.performed += Interact;
     }
 
     private void OnEnable()
     {
+        DialogChannel.DialogStartEvent += DisablePlayerControl;
+        DialogChannel.DialogFinishEvent += EnablePlayerControl;
+
         controls.Enable();
     }
 
     private void OnDisable()
     {
+        DialogChannel.DialogStartEvent -= DisablePlayerControl;
+        DialogChannel.DialogFinishEvent -= EnablePlayerControl;
+
         controls.Disable();
     }
 
+    private void DisablePlayerControl(Dialog dialog) { controls.Player.Disable(); }
+    private void EnablePlayerControl(Dialog dialog) { controls.Player.Enable(); }
+
     private void Update()
     {
-        direction = controls.Main.Move.ReadValue<float>();
+        direction = controls.Player.Move.ReadValue<float>();
     }
 
     private void FixedUpdate()
@@ -40,7 +49,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
+        interactable = collision.GetComponent<IInteractable>();
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        interactable = null;
     }
 
     private void Move()
@@ -48,8 +62,15 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(direction * speed, 0);
     }
 
+
     public void Interact(InputAction.CallbackContext context)
     {
-        Debug.Log("Ok");    
+        if (interactable == null) return;
+        if (interactable.CanInteract()) interactable.Interact();
+    }
+
+    private float DistanceToMe(Vector3 position)
+    {
+        return Vector3.Distance(transform.position, position);
     }
 }

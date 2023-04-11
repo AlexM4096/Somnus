@@ -1,16 +1,16 @@
 using System;
 
-public class DialogChannel
+public static class DialogChannel
 {
-    public Action<Dialog> DialogStartEvent;
-    public Action<Dialog> DialogFinishEvent;
+    static public Action<Dialog> DialogStartEvent;
+    static public Action<Dialog> DialogFinishEvent;
 
-    public void StartDialog(Dialog dialog)
+    static public void StartDialog(Dialog dialog)
     {
         DialogStartEvent?.Invoke(dialog);
     }
 
-    public void FinishDialog(Dialog dialog)
+    static public void FinishDialog(Dialog dialog)
     {
         DialogFinishEvent?.Invoke(dialog);
     }
