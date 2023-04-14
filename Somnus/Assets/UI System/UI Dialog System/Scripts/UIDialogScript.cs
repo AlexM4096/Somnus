@@ -4,20 +4,20 @@ using UnityEngine.UIElements;
 
 public class UIDialogScript : MonoBehaviour
 {
-    VisualElement _root;
-    UIDialogWindow _dialogWindow;
+    VisualElement Root;
+    UIDialogWindow DialogWindow;
 
     private void Awake()
     {
-        _root = GetComponent<UIDocument>().rootVisualElement;
-        _root.Clear();
+        Root = GetComponent<UIDocument>().rootVisualElement;
+        Root.Clear();
 
-        _root.AddToClassList("root");
+        Root.AddToClassList("root");
 
-        _dialogWindow = new UIDialogWindow();
-        _root.Add(_dialogWindow);
+        DialogWindow = new UIDialogWindow();
+        Root.Add(DialogWindow);
 
-        _root.style.display = DisplayStyle.None;
+        Root.style.display = DisplayStyle.None;
     }
 
     private void OnEnable()
@@ -34,14 +34,14 @@ public class UIDialogScript : MonoBehaviour
 
     private void DisplayOn(Dialog dialog)
     {
-        _dialogWindow.Clear();
-        _dialogWindow.Update(dialog);
+        DialogWindow.Clear();
+        DialogWindow.Update(dialog);
 
-        _root.style.display = DisplayStyle.Flex;
+        Root.style.display = DisplayStyle.Flex;
     }
 
     private void DisplayOff(Dialog dialog)
     {
-        _root.style.display = DisplayStyle.None;
+        Root.style.display = DisplayStyle.None;
     }
 }

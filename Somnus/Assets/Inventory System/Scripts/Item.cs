@@ -1,10 +1,14 @@
 using UnityEngine;
 
-public class Item : MonoBehaviour, IInteractable
+public class Item : InteractableObject
 {
     [SerializeField] private bool IsPicked = false;
-    public bool CanInteract() { return !IsPicked; }
-    public void Interact() { if (CanInteract()) PickUp(); }
+    public override bool CanInteract() { return !IsPicked; }
+    public override void StartInteract()
+    { 
+        base.StartInteract();
+        if (CanInteract()) PickUp(); 
+    }
     private void PickUp()
     {
         IsPicked = true;

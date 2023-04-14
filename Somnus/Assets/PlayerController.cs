@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     private float direction;
     private Controls controls;
 
-    private IInteractable interactable;
+    private InteractableObject interactable;
 
     private void Awake()
     {
@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        interactable = collision.GetComponent<IInteractable>();
+        interactable = collision.GetComponent<InteractableObject>();
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -62,11 +62,11 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(direction * speed, 0);
     }
 
-
     public void Interact(InputAction.CallbackContext context)
     {
+        //Debug.Log(controls.Player.StartInteract.activeControl.name);
         if (interactable == null) return;
-        if (interactable.CanInteract()) interactable.Interact();
+        if (interactable.CanInteract()) interactable.StartInteract();
     }
 
     private float DistanceToMe(Vector3 position)
