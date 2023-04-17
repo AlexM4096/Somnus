@@ -22,7 +22,6 @@ public class UIInteractText : TextElement
     }
     public void SetPosition()
     {
-        if (panel == null) return;
         Vector3 newPosition = RuntimePanelUtils
             .CameraTransformWorldToPanel(panel, transformToFollow.position, Camera.main);
         transform.position = newPosition;

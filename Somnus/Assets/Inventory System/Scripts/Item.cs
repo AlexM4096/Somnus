@@ -1,18 +1,9 @@
 using UnityEngine;
 
-public class Item : InteractableObject
+[CreateAssetMenu(fileName = "Item", menuName = "ScriptableObject/Item")]
+public class Item : ScriptableObject
 {
-    [SerializeField] private bool IsPicked = false;
-    public override bool CanInteract() { return !IsPicked; }
-    public override void StartInteract()
-    { 
-        base.StartInteract();
-        if (CanInteract()) PickUp(); 
-    }
-    private void PickUp()
-    {
-        IsPicked = true;
-        gameObject.SetActive(false);
-        InventoryChannel.PickUpItem(this);
-    }
+    public int ID;
+    public string Name;
+    public Sprite Icon;
 }

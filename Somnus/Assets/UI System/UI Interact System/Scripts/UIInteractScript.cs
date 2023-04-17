@@ -29,4 +29,26 @@ public class UIInteractScript : MonoBehaviour
         Root.Add(text);
         Children.Add(text);
     }
+
+    private void OnEnable()
+    {
+        DialogChannel.DialogStartEvent += DisplayOff;
+        DialogChannel.DialogFinishEvent += DisplayOn;
+    }
+
+    private void OnDisable()
+    {
+        DialogChannel.DialogStartEvent -= DisplayOff;
+        DialogChannel.DialogFinishEvent -= DisplayOn;
+    }
+
+    private void DisplayOn(Dialog dialog)
+    {
+        Root.style.display = DisplayStyle.Flex;
+    }
+
+    private void DisplayOff(Dialog dialog)
+    {
+        Root.style.display = DisplayStyle.None;
+    }
 }

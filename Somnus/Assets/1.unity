@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InteractPivot: {fileID: 1861319008}
-  IsPicked: 0
+  item: {fileID: 0}
 --- !u!212 &59699845
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -2,10 +2,15 @@ using System;
 
 static public class InventoryChannel
 {
-    static public Action<Item> ItemPickUpEvent;
+    static public Action<Item> ItemAddEvent;
+    static public Action<Item> ItemRemoveEvent;
 
-    static public void PickUpItem(Item item)
+    static public void AddItem(Item item)
     {
-        ItemPickUpEvent?.Invoke(item);
+        ItemAddEvent?.Invoke(item);
+    }
+    static public void RemoveItem(Item item)
+    {
+        ItemRemoveEvent?.Invoke(item);
     }
 }

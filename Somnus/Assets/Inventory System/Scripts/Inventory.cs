@@ -5,18 +5,20 @@ using UnityEngine.UIElements;
 public class Inventory : MonoBehaviour
 {
     [SerializeField] private List<Item> Items;
-    private VisualElement Root;
+
     private void Awake()
     {
         Items = new List<Item>();
     }
     private void OnEnable()
     {
-        InventoryChannel.ItemPickUpEvent += AddItem;
+        InventoryChannel.ItemAddEvent += AddItem;
+        InventoryChannel.ItemRemoveEvent += RemoveItem;
     }
     private void OnDisable()
     {
-        InventoryChannel.ItemPickUpEvent -= AddItem;
+        InventoryChannel.ItemAddEvent -= AddItem;
+        InventoryChannel.ItemRemoveEvent -= RemoveItem;
     }
     private void AddItem(Item item)
     {
