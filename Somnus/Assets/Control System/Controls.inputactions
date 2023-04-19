@@ -24,13 +24,22 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "New action",
+                    "name": "Click",
                     "type": "Button",
-                    "id": "c252a504-eadb-4921-a905-cf1117824891",
+                    "id": "f9eb936b-6f21-4701-bb48-7271188b2db6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Position",
+                    "type": "Value",
+                    "id": "1714c897-d6df-4903-befc-f6729c1b5f07",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -157,47 +166,25 @@
                 },
                 {
                     "name": "",
-                    "id": "ba483ecf-5ddf-4724-b585-c920a2384b46",
-                    "path": "",
+                    "id": "fedd572b-0462-4353-b92c-79b993314590",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Gamepad",
-                    "action": "New action",
+                    "groups": "Keyboard + Mouse",
+                    "action": "Click",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "1D Axis",
-                    "id": "921555d9-9449-4682-9095-d53fc515165a",
-                    "path": "1DAxis",
+                    "name": "",
+                    "id": "95f295a1-12dd-43b5-b98a-6e2b77d4b1d3",
+                    "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": true,
+                    "groups": "Keyboard + Mouse",
+                    "action": "Position",
+                    "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "9cab3295-a40d-442b-aff4-79ce006da607",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard + Mouse",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "fc802c4a-b7ea-45b5-8d83-98b535eb73fc",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard + Mouse",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 }
             ]
         }

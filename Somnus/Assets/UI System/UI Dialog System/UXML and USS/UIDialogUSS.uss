@@ -50,6 +50,10 @@
     scale: 1.05 1.05;
 }
 
+.dialogChoice:hover {
+    scale: 1.05 1.05;
+}
+
 .root {
     align-items: flex-start;
     justify-content: center;

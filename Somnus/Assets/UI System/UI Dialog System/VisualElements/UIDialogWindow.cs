@@ -3,7 +3,11 @@ using UnityEngine.UIElements;
 
 public class UIDialogWindow : VisualElement
 {
-    public UIDialogWindow() { AddToClassList("dialogWindow"); }
+    public UIDialogWindow()
+    { 
+        focusable = true;
+        AddToClassList("dialogWindow"); 
+    }
 
     public void Update(Dialog dialog)
     {

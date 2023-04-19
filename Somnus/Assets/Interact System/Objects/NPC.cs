@@ -18,11 +18,12 @@ public class NPC : InteractableObject
     public override void StartInteract()
     { 
         base.StartInteract();
+        if (!CanInteract()) return;
         StartDialog(); 
     }
     void StartDialog()
     {
-        Dialog dialog = DialogsQueue.Dequeue();
-        dialog?.StartDialog();
+        Dialog dialog = DialogsQueue?.Dequeue();
+        dialog.StartDialog();
     }
 }

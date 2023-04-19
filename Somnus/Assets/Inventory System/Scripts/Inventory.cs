@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Inventory : MonoBehaviour
 {
@@ -14,11 +13,13 @@ public class Inventory : MonoBehaviour
     {
         InventoryChannel.ItemAddEvent += AddItem;
         InventoryChannel.ItemRemoveEvent += RemoveItem;
+        InventoryChannel.ItemUseEvent += UseItem;
     }
     private void OnDisable()
     {
         InventoryChannel.ItemAddEvent -= AddItem;
         InventoryChannel.ItemRemoveEvent -= RemoveItem;
+        InventoryChannel.ItemUseEvent -= UseItem;
     }
     private void AddItem(Item item)
     {
@@ -27,5 +28,14 @@ public class Inventory : MonoBehaviour
     private void RemoveItem(Item item)
     {
         Items.Remove(item);
+    }
+    private void UseItem(Item itemPrefab)
+    {
+        Item item = Items.Find(t => t.ID == itemPrefab.ID);
+        if (item != null)
+        {
+            item.Used = true;
+            InventoryChannel.RemoveItem(item);
+        }          
     }
 }

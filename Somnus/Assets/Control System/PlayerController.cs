@@ -4,9 +4,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private float Speed;
+    [SerializeField] private float Speed = 5;
 
-    private Rigidbody2D Rb;
+    private Rigidbody2D RB;
     private float Direction;
     private Controls Control;
 
@@ -17,12 +17,14 @@ public class PlayerController : MonoBehaviour
         Control = new Controls();
         Interactables = new List<InteractableObject>();
 
-        Rb = GetComponent<Rigidbody2D>();     
+        RB = GetComponent<Rigidbody2D>();     
     }
 
     private void OnEnable()
     {
         Control.Player.Interact.performed += Interact;
+
+        Control.Player.Click.performed += _ => DetectObject();
 
         DialogChannel.DialogStartEvent += DisablePlayerControl;
         DialogChannel.DialogFinishEvent += EnablePlayerControl;
@@ -67,11 +69,11 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        Rb.velocity = Direction * Speed * Vector2.right;
+        RB.velocity = Direction * Speed * Vector2.right;
     }
 
     public void Interact(InputAction.CallbackContext context)
-    {
+    { 
         if (Interactables.Count == 0) return;
 
         InteractableObject closest = Interactables[0];
@@ -94,5 +96,17 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 position = interactable.transform.position;
         return Vector3.Distance(transform.position, position);
+    }
+
+    private void DetectObject()
+    {
+        Vector2 mousePosition = Control.Player.Position.ReadValue<Vector2>();
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+        RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+        if (hit && hit.collider != null)
+        {
+            hit.collider.TryGetComponent<InteractableObject>(out InteractableObject interactable);
+            if (Interactables.Contains(interactable)) interactable.StartInteract();
+        }
     }
 }
