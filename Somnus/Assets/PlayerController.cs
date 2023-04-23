@@ -3,6 +3,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public bool faceRight = true;
     [SerializeField] private float speed;
     private Rigidbody2D rb;
     private float direction;
@@ -53,7 +54,7 @@ public class PlayerController : MonoBehaviour
         Reflect();
 
     }
-    public bool faceRight = true;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         interactable = collision.GetComponent<IInteractable>();
