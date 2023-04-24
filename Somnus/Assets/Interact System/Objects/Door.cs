@@ -1,29 +1,19 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Door : InteractableObject
 {
-    [SerializeField] private bool IsOpened;
-    [SerializeField] private Item Key;
+    [SerializeField] private bool IsClosed = true;
 
-    protected override void Awake()
+    //public override bool CanInteract() { return IsClosed; }
+
+    protected override void DoInteractions()
     {
-        base.Awake();
-        IsOpened = false;
+        SwitchState();
     }
-    public override bool CanInteract() { return !IsOpened; }
-    public override void StartInteract()
+
+    private void SwitchState()
     {
-        base.StartInteract();
-        if (IsOpened) return;
-        InventoryChannel.UseItem(Key);
-        if (Key.Used) gameObject.SetActive(false);
-    }
-    public override void FinishInteract()
-    {
-        base.FinishInteract();
-        IsOpened = false;
-    }
+        IsClosed = !IsClosed;
+        gameObject.SetActive(IsClosed);
+    }   
 }

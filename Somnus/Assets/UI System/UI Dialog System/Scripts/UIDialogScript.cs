@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 
 public class UIDialogScript : MonoBehaviour
@@ -36,7 +35,7 @@ public class UIDialogScript : MonoBehaviour
     {
         DialogWindow.Clear();
         DialogWindow.Update(dialog);
-
+            
         Root.style.display = DisplayStyle.Flex;
     }
 
