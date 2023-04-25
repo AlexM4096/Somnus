@@ -4,6 +4,14 @@
     <ui:VisualElement name="Root" class="root">
         <UIInventoryWindow>
             <UIInventorySlot focusable="true" />
+            <UIInventorySlot focusable="true" />
+            <UIInventorySlot focusable="true" />
+            <UIInventorySlot focusable="true" />
+            <UIInventorySlot focusable="true" />
+            <UIInventorySlot focusable="true" />
+            <UIInventorySlot focusable="true" />
+            <UIInventorySlot focusable="true" />
+            <UIInventorySlot focusable="true" />
         </UIInventoryWindow>
     </ui:VisualElement>
 </ui:UXML>

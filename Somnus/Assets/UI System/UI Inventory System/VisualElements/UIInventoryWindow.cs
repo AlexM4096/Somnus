@@ -2,11 +2,12 @@ using System.Collections.Generic;
 using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 
-public class UIInventoryWindow : VisualElement
+public class UIInventoryWindow : ScrollView
 {
     private List<UIInventorySlot> Slots = new();
-    public UIInventoryWindow()
-    { 
+    public UIInventoryWindow() : base()
+    {
+        mode = ScrollViewMode.Vertical;
         AddToClassList("inventoryWindow"); 
     }
     public void AddItem(Item item)
