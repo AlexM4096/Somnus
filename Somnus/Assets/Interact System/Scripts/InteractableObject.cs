@@ -2,29 +2,43 @@ using UnityEngine;
 
 public abstract class InteractableObject : MonoBehaviour
 {
+    [SerializeField] protected Item RequiredItem = null;
     public Transform InteractPivot;
+    private int PivotID;
+
     protected virtual void Awake()
     {
         InteractPivot = transform.Find("InteractPivot").transform;
+        PivotID = InteractPivot.GetInstanceID();
     }
-    protected virtual void OnTriggerEnter2D(Collider2D collision)
+
+    public void SetActive(bool InRadius)
     {
-        if (!collision.CompareTag("Player")) return;
-        if (!CanInteract()) return;
-        UIInteractChannel.ShowUIInteract(InteractPivot.GetInstanceID());
+        if (InRadius)
+            UIInteractChannel.ShowUIInteract(PivotID);
+        else
+            UIInteractChannel.HideUIInteract(PivotID);
     }
-    protected virtual void OnTriggerExit2D(Collider2D collision)
+
+    public virtual bool CanInteract() { return true; }
+
+    private bool CheckRequirement(Item item)
     {
-        if (!collision.CompareTag("Player")) return;
-        UIInteractChannel.HideUIInteract(InteractPivot.GetInstanceID());
+        return RequiredItem == null || RequiredItem.Equals(item);
     }
-    abstract public bool CanInteract();
-    virtual public void StartInteract()
-    {      
+
+    private bool Check(Item item)
+    {
+        return CanInteract() && CheckRequirement(item);
+    }
+
+    protected abstract void DoInteractions();
+
+    public void StartInteract(Item item)
+    {
+        if (Check(item)) DoInteractions();
+        InventoryChannel.RemoveItem(item);
+        //InventoryChannel.UseItem(item);
         InteractChannel.StartInteract(this);
-    }
-    virtual public void FinishInteract()
-    {
-        InteractChannel.FinishInteract(this);
     }
 }

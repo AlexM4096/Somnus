@@ -7,35 +7,36 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        Items = new List<Item>();
+        Items = new();
     }
+
     private void OnEnable()
     {
         InventoryChannel.ItemAddEvent += AddItem;
         InventoryChannel.ItemRemoveEvent += RemoveItem;
         InventoryChannel.ItemUseEvent += UseItem;
     }
+
     private void OnDisable()
     {
         InventoryChannel.ItemAddEvent -= AddItem;
         InventoryChannel.ItemRemoveEvent -= RemoveItem;
         InventoryChannel.ItemUseEvent -= UseItem;
     }
+
     private void AddItem(Item item)
     {
         Items.Add(item);
     }
+
     private void RemoveItem(Item item)
     {
         Items.Remove(item);
     }
-    private void UseItem(Item itemPrefab)
+
+    private void UseItem(Item item)
     {
-        Item item = Items.Find(t => t.ID == itemPrefab.ID);
-        if (item != null)
-        {
-            item.Used = true;
-            InventoryChannel.RemoveItem(item);
-        }          
+        if (Items.Contains(item))
+            RemoveItem(item);
     }
 }

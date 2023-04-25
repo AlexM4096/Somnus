@@ -25,7 +25,7 @@ public class UIInteractScript : MonoBehaviour
     }
     void AddUIInteractText(Transform transform)
     {
-        UIInteractText text = new UIInteractText(transform);
+        UIInteractText text = new(transform);
         Root.Add(text);
         Children.Add(text);
     }

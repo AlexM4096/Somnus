@@ -1,6 +1,6 @@
 using System;
 
-public class UIInteractChannel
+static public class UIInteractChannel
 {
     static public Action<int> UIInteractShowEvent;
     static public Action<int> UIInteractHideEvent;

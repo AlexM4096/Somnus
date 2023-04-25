@@ -5,108 +5,118 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float Speed = 5;
+    private float Direction;
 
     private Rigidbody2D RB;
-    private float Direction;
     private Controls Control;
 
-    private List<InteractableObject> Interactables;
+    HashSet<InteractableObject> Interactables;
+    private Item ChoosedItem;
 
     private void Awake()
     {
-        Control = new Controls();
-        Interactables = new List<InteractableObject>();
+        Control = new();
+        Interactables = new();
 
-        RB = GetComponent<Rigidbody2D>();     
+        RB = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
     {
-        Control.Player.Interact.performed += Interact;
-
-        Control.Player.Click.performed += _ => DetectObject();
+        Control.Player.Move.started += Move;
+        Control.Player.Move.canceled += Move;
+        Control.Player.Click.performed += ClickToDo;
+        Control.Enable();
 
         DialogChannel.DialogStartEvent += DisablePlayerControl;
         DialogChannel.DialogFinishEvent += EnablePlayerControl;
 
-        Control.Enable();
+        InventoryChannel.ItemChooseEvent += SetChoosedItem;
     }
 
     private void OnDisable()
     {
-        Control.Player.Interact.performed -= Interact;
+        Control.Player.Click.performed -= ClickToDo;
+        Control.Disable();
 
         DialogChannel.DialogStartEvent -= DisablePlayerControl;
         DialogChannel.DialogFinishEvent -= EnablePlayerControl;
 
-        Control.Disable();
+        InventoryChannel.ItemChooseEvent -= SetChoosedItem;
     }
 
     private void DisablePlayerControl(Dialog dialog) { Control.Player.Disable(); }
     private void EnablePlayerControl(Dialog dialog) { Control.Player.Enable(); }
 
-    private void Update()
-    {
-        Direction = Control.Player.Move.ReadValue<float>();
-    }
-
-    private void FixedUpdate()
-    {
-        Move();
-    }
+    private void SetChoosedItem(Item item) { ChoosedItem = item; }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<InteractableObject>(out var interactable))
-            Interactables.Add(interactable);         
+        {
+            interactable.SetActive(true);
+            Interactables.Add(interactable);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.TryGetComponent<InteractableObject>(out var interactable))
+        {
+            interactable.SetActive(false);
             Interactables.Remove(interactable);
+        }
     }
 
-    private void Move()
+    private void Move(InputAction.CallbackContext context)
     {
+        Direction = Control.Player.Move.ReadValue<float>();
         RB.velocity = Direction * Speed * Vector2.right;
     }
 
-    public void Interact(InputAction.CallbackContext context)
-    { 
-        if (Interactables.Count == 0) return;
-
-        InteractableObject closest = Interactables[0];
-        float distance, minDistance = DistanceToPlayer(closest);
-
-        foreach (var interactable in Interactables)
-        {
-            distance = DistanceToPlayer(interactable);
-            if (distance < minDistance)
-            {
-                minDistance = distance;
-                closest = interactable;
-            }
-        }
-
-        closest.StartInteract();
-    }
-
-    private float DistanceToPlayer(InteractableObject interactable)
-    {
-        Vector3 position = interactable.transform.position;
-        return Vector3.Distance(transform.position, position);
-    }
-
-    private void DetectObject()
+    private void ClickToDo(InputAction.CallbackContext context)
     {
         Vector2 mousePosition = Control.Player.Position.ReadValue<Vector2>();
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
-        RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
-        if (hit && hit.collider != null)
+        RaycastHit2D[] hits = Physics2D.GetRayIntersectionAll(ray);
+
+        TryInteract(hits);
+        TryDrag(hits);
+    }
+
+    private void TryInteract(RaycastHit2D[] hits)
+    {    
+        if (DetectInteractable(hits, out var interactable))
+            interactable.StartInteract(ChoosedItem);        
+    }
+
+    private bool DetectInteractable(RaycastHit2D[] hits, out InteractableObject interactable)
+    {
+        interactable = null;
+        foreach (var hit in hits)
         {
-            hit.collider.TryGetComponent<InteractableObject>(out InteractableObject interactable);
-            if (Interactables.Contains(interactable)) interactable.StartInteract();
+            if (!hit || hit.collider == null || hit.collider.isTrigger) continue;
+            if (hit.collider.TryGetComponent(out interactable))
+                return Interactables.Contains(interactable);
         }
+        return false;
+    }
+
+    private void TryDrag(RaycastHit2D[] hits)
+    {
+        if (DetectDragable(hits, out var dragable))
+            dragable.Drag();
+    }
+
+    private bool DetectDragable(RaycastHit2D[] hits, out DragableObject dragable)
+    {
+        dragable = null;
+        foreach (var hit in hits)
+        {
+            if (!hit || hit.collider == null) continue;
+            if (hit.collider.TryGetComponent(out dragable))
+                return true;
+        }
+        return false;
     }
 }

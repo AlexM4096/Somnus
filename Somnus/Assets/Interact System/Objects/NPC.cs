@@ -1,29 +1,22 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class NPC : InteractableObject
 {
-    [SerializeField] string Name;
     [SerializeField] List<Dialog> Dialogs;
+    private Dialog CurrentDialog;
 
-    Queue<Dialog> DialogsQueue;
+    public override bool CanInteract() { return Dialogs.Count > 0; }
 
-    protected override void Awake()       
+    private void StartTalk()
     {
-        base.Awake();
-        DialogsQueue = new Queue<Dialog>(Dialogs);
+        CurrentDialog = Dialogs.First();
+        CurrentDialog.Start();
     }
- 
-    public override bool CanInteract() { return DialogsQueue.Count > 0; }
-    public override void StartInteract()
-    { 
-        base.StartInteract();
-        if (!CanInteract()) return;
-        StartDialog(); 
-    }
-    void StartDialog()
+
+    protected override void DoInteractions()
     {
-        Dialog dialog = DialogsQueue?.Dequeue();
-        dialog.StartDialog();
+        StartTalk();
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 public class UIInventoryScript : MonoBehaviour
 {
     VisualElement Root;
-    UIInventory InventoryWindow;
+    UIInventoryWindow InventoryWindow;
 
     private void Awake()
     {
@@ -13,42 +13,45 @@ public class UIInventoryScript : MonoBehaviour
 
         Root.AddToClassList("root");
 
-        InventoryWindow = new UIInventory();
+        InventoryWindow = new UIInventoryWindow();
         Root.Add(InventoryWindow);
 
         //Root.style.display = DisplayStyle.None;
     }
+
     private void OnEnable()
     {
-        InventoryChannel.ItemAddEvent += AddItem;
-        InventoryChannel.ItemRemoveEvent += RemoveItem;
-
         UIInventoryChannel.UIInventoryDisplayOnEvent += DisplayOn;
         UIInventoryChannel.UIInventoryDisplayOffEvent += DisplayOff;
+
+        UIInventoryChannel.UIInventorySlotChooseEvent += ChooseSlot;
+
+        InventoryChannel.ItemAddEvent += AddItem;
+        InventoryChannel.ItemRemoveEvent += RemoveItem;
+        //InventoryChannel.ItemUseEvent += UseItem;
     }
+
     private void OnDisable()
     {
-        InventoryChannel.ItemAddEvent -= AddItem;
-        InventoryChannel.ItemRemoveEvent -= RemoveItem;
-
         UIInventoryChannel.UIInventoryDisplayOnEvent -= DisplayOn;
         UIInventoryChannel.UIInventoryDisplayOffEvent -= DisplayOff;
-    }
-    private void DisplayOn()
-    {
-        Root.style.display = DisplayStyle.Flex;
+
+        UIInventoryChannel.UIInventorySlotChooseEvent -= ChooseSlot;
+
+        InventoryChannel.ItemAddEvent -= AddItem;
+        InventoryChannel.ItemRemoveEvent -= RemoveItem;
+        //InventoryChannel.ItemUseEvent -= UseItem;
     }
 
-    private void DisplayOff()
-    {
-        Root.style.display = DisplayStyle.None;
-    }
-    private void AddItem(Item item)
-    {
-        InventoryWindow.AddItem(item);
-    }
-    private void RemoveItem(Item item)
-    {
-        InventoryWindow.RemoveItem(item);
+
+    private void DisplayOn() { Root.style.display = DisplayStyle.Flex; }
+    private void DisplayOff() { Root.style.display = DisplayStyle.None; }
+
+    private void AddItem(Item item) { InventoryWindow.AddItem(item); }
+    private void RemoveItem(Item item) { InventoryWindow.RemoveItem(item); }
+
+    private void ChooseSlot(UIInventorySlot slot) 
+    { 
+        InventoryWindow.SetAllActiveFalse(slot); 
     }
 }
