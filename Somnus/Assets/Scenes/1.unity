@@ -1001,6 +1001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsDraging: 0
+  IsHolding: 0
 --- !u!212 &954395692
 SpriteRenderer:
   m_ObjectHideFlags: 0

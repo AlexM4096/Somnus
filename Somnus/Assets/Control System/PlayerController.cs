@@ -15,14 +15,16 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        Control = new Controls();
+        Control = new();
         Interactables = new();
 
-        RB = GetComponent<Rigidbody2D>();     
+        RB = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
     {
+        Control.Player.Move.started += Move;
+        Control.Player.Move.canceled += Move;
         Control.Player.Click.performed += ClickToDo;
         Control.Enable();
 
@@ -48,23 +50,13 @@ public class PlayerController : MonoBehaviour
 
     private void SetChoosedItem(Item item) { ChoosedItem = item; }
 
-    private void Update()
-    {
-        Direction = Control.Player.Move.ReadValue<float>();
-    }
-
-    private void FixedUpdate()
-    {
-        Move();
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<InteractableObject>(out var interactable))
         {
             interactable.SetActive(true);
             Interactables.Add(interactable);
-        }                 
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -73,11 +65,12 @@ public class PlayerController : MonoBehaviour
         {
             interactable.SetActive(false);
             Interactables.Remove(interactable);
-        }          
+        }
     }
 
-    private void Move()
+    private void Move(InputAction.CallbackContext context)
     {
+        Direction = Control.Player.Move.ReadValue<float>();
         RB.velocity = Direction * Speed * Vector2.right;
     }
 
@@ -112,7 +105,7 @@ public class PlayerController : MonoBehaviour
     private void TryDrag(RaycastHit2D[] hits)
     {
         if (DetectDragable(hits, out var dragable))
-            dragable.SwitchState();
+            dragable.Drag();
     }
 
     private bool DetectDragable(RaycastHit2D[] hits, out DragableObject dragable)
