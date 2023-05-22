@@ -13,11 +13,13 @@ MonoBehaviour:
   m_Name: Dialog 1
   m_EditorClassIdentifier: 
   DialogName: 
-  NPCText: "\u0423\u0432\u0435\u0440\u0435\u043D"
+  NPCText: "\u041F\u0440\u0438\u0432\u0435\u0442! \u041A\u0430\u043A \u0441\u0435\u0433\u043E\u0434\u043D\u044F
+    \u043F\u043E\u0440\u0430\u0431\u043E\u0442\u0430\u043B?"
+  PreviousDialog: {fileID: 0}
   Choices:
-  - PlayerText: "\u041A\u043E\u043B\u0434"
+  - PlayerText: "\u0414\u0430 \u0442\u0430\u043A, \u0441\u043A\u0443\u0447\u043D\u043E..."
     Type: 0
     NextDialog: {fileID: 0}
-  - PlayerText: "\u041A\u0443"
+  - PlayerText: "\u041F\u0440\u043E\u043C\u043E\u043B\u0447\u0430\u0442\u044C..."
     Type: 0
     NextDialog: {fileID: 0}

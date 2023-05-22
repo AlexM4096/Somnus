@@ -6,8 +6,6 @@
             <UIDialogText />
             <UIDialogChoice focusable="true" />
             <UIDialogChoice focusable="true" />
-            <UIDialogChoice focusable="true" />
-            <UIDialogChoice focusable="true" />
         </UIDialogWindow>
     </ui:VisualElement>
 </ui:UXML>

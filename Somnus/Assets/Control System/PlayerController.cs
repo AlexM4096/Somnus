@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float Speed = 5;
     private float Direction;
+    private bool IsFacingRight = true;
+    private Vector3 FlipVector = new(0, 180, 0);
 
     private Rigidbody2D RB;
     private Controls Control;
@@ -28,25 +30,27 @@ public class PlayerController : MonoBehaviour
         Control.Player.Click.performed += ClickToDo;
         Control.Enable();
 
-        DialogChannel.DialogStartEvent += DisablePlayerControl;
-        DialogChannel.DialogFinishEvent += EnablePlayerControl;
+        DialogChannel.DialogStartEvent += _ => DisablePlayerControl();
+        DialogChannel.DialogFinishEvent += _ => EnablePlayerControl();
 
         InventoryChannel.ItemChooseEvent += SetChoosedItem;
     }
 
     private void OnDisable()
     {
+        Control.Player.Move.started -= Move;
+        Control.Player.Move.canceled -= Move;
         Control.Player.Click.performed -= ClickToDo;
         Control.Disable();
 
-        DialogChannel.DialogStartEvent -= DisablePlayerControl;
-        DialogChannel.DialogFinishEvent -= EnablePlayerControl;
+        DialogChannel.DialogStartEvent -= _ => DisablePlayerControl();
+        DialogChannel.DialogFinishEvent -= _ => EnablePlayerControl();
 
         InventoryChannel.ItemChooseEvent -= SetChoosedItem;
     }
 
-    private void DisablePlayerControl(Dialog dialog) { Control.Player.Disable(); }
-    private void EnablePlayerControl(Dialog dialog) { Control.Player.Enable(); }
+    private void DisablePlayerControl() { Control.Player.Disable(); }
+    private void EnablePlayerControl() { Control.Player.Enable(); }
 
     private void SetChoosedItem(Item item) { ChoosedItem = item; }
 
@@ -70,8 +74,13 @@ public class PlayerController : MonoBehaviour
 
     private void Move(InputAction.CallbackContext context)
     {
-        Direction = Control.Player.Move.ReadValue<float>();
+        Direction = Control.Player.Move.ReadValue<float>();       
         RB.velocity = Direction * Speed * Vector2.right;
+
+        if (Direction > 0 && !IsFacingRight)
+            Flip();
+        if (Direction < 0 && IsFacingRight)
+            Flip();
     }
 
     private void ClickToDo(InputAction.CallbackContext context)
@@ -95,7 +104,8 @@ public class PlayerController : MonoBehaviour
         interactable = null;
         foreach (var hit in hits)
         {
-            if (!hit || hit.collider == null || hit.collider.isTrigger) continue;
+            //if (!hit || hit.collider == null || hit.collider.isTrigger) continue;
+            if (!hit || hit.collider == null) continue;
             if (hit.collider.TryGetComponent(out interactable))
                 return Interactables.Contains(interactable);
         }
@@ -118,5 +128,11 @@ public class PlayerController : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    private void Flip()
+    {
+        IsFacingRight = !IsFacingRight;
+        transform.Rotate(FlipVector);
     }
 }

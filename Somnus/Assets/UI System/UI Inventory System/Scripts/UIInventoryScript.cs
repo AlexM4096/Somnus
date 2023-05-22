@@ -16,7 +16,7 @@ public class UIInventoryScript : MonoBehaviour
         InventoryWindow = new UIInventoryWindow();
         Root.Add(InventoryWindow);
 
-        //Root.style.display = DisplayStyle.None;
+        Root.style.display = DisplayStyle.None;
     }
 
     private void OnEnable()

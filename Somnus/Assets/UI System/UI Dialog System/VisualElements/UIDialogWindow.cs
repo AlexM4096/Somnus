@@ -15,6 +15,8 @@ public class UIDialogWindow : VisualElement
 
         foreach (DialogChoice dialogChoice in dialog.Choices)
             Add(new UIDialogChoice(dialog, dialogChoice));
+
+        //Add(new UIDialogChoice(dialog));
     }
 
     #region UXML

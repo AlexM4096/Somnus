@@ -1,53 +1,50 @@
 .dialogWindow {
     width: 850px;
-    background-color: rgb(110, 105, 105);
     align-items: center;
-    border-top-left-radius: 50px;
-    border-bottom-left-radius: 50px;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
-    min-height: 200px;
-    max-height: 663px;
     padding-bottom: 25px;
+    height: 100%;
+    justify-content: center;
 }
 
 .dialogText {
-    width: 800px;
-    height: 150px;
-    background-color: rgb(255, 255, 255);
-    margin-top: 25px;
+    width: 818px;
+    height: 182px;
+    margin-top: 10px;
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
-    -unity-text-align: middle-center;
+    background-image: url('project://database/Assets/Sprites/New%20Folder/%D0%B4%D0%B8%D0%B0%D0%BB%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D0%B5%20%D0%BE%D0%BA%D0%BD%D0%BE%20%D0%B8%20%D1%81%D1%82%D1%80%D0%B5%D0%BB%D0%BA%D0%B0.png?fileID=-1799108566&guid=d9505e96ff2a31d44bcb430db6431043&type=3#диалоговое окно и стрелка_0');
+    margin-bottom: 10px;
+    justify-content: center;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    -unity-background-image-tint-color: rgba(173, 173, 173, 255);
 }
 
 .dialogChoice {
-    width: 800px;
-    height: 90px;
-    background-color: rgb(255, 255, 255);
+    width: 818px;
+    height: 182px;
     margin-left: 0;
     margin-right: 0;
-    margin-top: 25px;
-    margin-bottom: 0;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    padding-bottom: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     border-left-width: 0;
     border-right-width: 0;
     border-top-width: 0;
     border-bottom-width: 0;
-    border-top-left-radius: 50px;
-    border-bottom-left-radius: 50px;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
-    -unity-text-align: middle-center;
-}
-
-.dialogChoice:focus {
-    scale: 1.05 1.05;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background-image: url('project://database/Assets/Sprites/New%20Folder/%D0%B4%D0%B8%D0%B0%D0%BB%D0%BE%D0%B3%D0%BE%D0%B2%D0%BE%D0%B5%20%D0%BE%D0%BA%D0%BD%D0%BE%20%D0%B8%20%D1%81%D1%82%D1%80%D0%B5%D0%BB%D0%BA%D0%B0.png?fileID=-1799108566&guid=d9505e96ff2a31d44bcb430db6431043&type=3#диалоговое окно и стрелка_0');
 }
 
 .dialogChoice:hover {
@@ -56,6 +53,16 @@
 
 .root {
     align-items: flex-start;
-    justify-content: center;
     left: 50px;
+}
+
+.unity-button {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.unity-text-element {
+    font-size: 40px;
+    -unity-font-definition: resource('4377-font SDF');
+    -unity-font: resource('4377-font');
+    -unity-text-align: middle-center;
 }

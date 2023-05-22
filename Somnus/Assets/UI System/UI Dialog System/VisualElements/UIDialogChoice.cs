@@ -3,18 +3,25 @@ using UnityEngine.UIElements;
 
 public class UIDialogChoice : Button
 {
-    public UIDialogChoice()
-    {
-        focusable = true;
-        AddToClassList("dialogChoice");
-    }
+    public UIDialogChoice() { AddToClassList("dialogChoice"); }
 
     public UIDialogChoice(Dialog dialog, DialogChoice dialogChoice) : this ()
     {
         text = dialogChoice.PlayerText;
         Dialog nextDialog = dialogChoice.NextDialog;
 
-        clicked += (nextDialog != null) ? nextDialog.Start : dialog.Finish;
+        clicked += () => { dialog.Finish(); nextDialog?.Start(); };
+    }
+
+    public UIDialogChoice(Dialog dialog) : this()
+    {
+        text = "Потом поговорим";
+
+        Dialog previousDialog = dialog;
+        while (previousDialog.PreviousDialog != null)
+            previousDialog = previousDialog.PreviousDialog;
+
+        clicked += () => { dialog.Finish(); DialogChannel.UnFinishDialog(previousDialog); };
     }
 
     #region UXML

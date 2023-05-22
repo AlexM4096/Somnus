@@ -4,19 +4,45 @@ using UnityEngine;
 
 public class NPC : InteractableObject
 {
-    [SerializeField] List<Dialog> Dialogs;
+    [SerializeField] private List<Dialog> Dialogs;
+    private Queue<Dialog> DialogsQueue;
     private Dialog CurrentDialog;
 
-    public override bool CanInteract() { return Dialogs.Count > 0; }
+    public object DialogQueue { get; private set; }
 
-    private void StartTalk()
+    protected override void Awake()
     {
-        CurrentDialog = Dialogs.First();
+        base.Awake();
+        DialogsQueue = new(Dialogs);
+    }
+
+    private void OnEnable()
+    {
+        DialogChannel.DialogUnFinishEvent += TryStopTalking;
+    }
+
+    private void OnDisable()
+    {
+        DialogChannel.DialogUnFinishEvent -= TryStopTalking;
+    }
+
+    public override bool CanInteract() { return DialogsQueue.Count > 0; }
+
+    private void StartTalking()
+    {
+        //CurrentDialog = Dialogs.First();
+        CurrentDialog = DialogsQueue.Dequeue();
         CurrentDialog.Start();
+    }
+
+    private void TryStopTalking(Dialog dialog)
+    {
+        if (dialog != CurrentDialog) return;
+        Dialogs.Remove(dialog);
     }
 
     protected override void DoInteractions()
     {
-        StartTalk();
+        StartTalking();
     }
 }

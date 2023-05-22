@@ -14,7 +14,7 @@ public abstract class InteractableObject : MonoBehaviour
 
     public void SetActive(bool InRadius)
     {
-        if (InRadius)
+        if (InRadius && CanInteract())
             UIInteractChannel.ShowUIInteract(PivotID);
         else
             UIInteractChannel.HideUIInteract(PivotID);
@@ -24,7 +24,12 @@ public abstract class InteractableObject : MonoBehaviour
 
     private bool CheckRequirement(Item item)
     {
-        return RequiredItem == null || RequiredItem.Equals(item);
+        return NullRequirment() || (RequiredItem == item);
+    }
+
+    private bool NullRequirment()
+    {
+        return RequiredItem == null;
     }
 
     private bool Check(Item item)
@@ -36,9 +41,25 @@ public abstract class InteractableObject : MonoBehaviour
 
     public void StartInteract(Item item)
     {
-        if (Check(item)) DoInteractions();
-        InventoryChannel.RemoveItem(item);
-        //InventoryChannel.UseItem(item);
-        InteractChannel.StartInteract(this);
+        if (Check(item))
+        {
+            InteractChannel.StartInteract(this);
+            UIInteractChannel.HideUIInteract(PivotID);
+            DoInteractions();
+
+            if (!NullRequirment())
+            {
+                InventoryChannel.RemoveItem(item);
+                //InventoryChannel.UseItem(item);               
+            }
+
+            FinishInteract();
+        }   
+    }
+
+    public void FinishInteract()
+    {
+        InteractChannel.FinishInteract(this);
+        if (CanInteract()) UIInteractChannel.ShowUIInteract(PivotID);
     }
 }
